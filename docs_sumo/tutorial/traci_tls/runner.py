@@ -25,7 +25,7 @@ import random
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
-    sys.path.append("/opt/sumo/tools")  # tutorial in tests
+    sys.path.append(os.path.join(os.environ.get("SUMO_HOME"),"/tools"))  # tutorial in tests
     from sumolib import checkBinary  # noqa
 except ImportError:
     sys.exit(
@@ -123,6 +123,5 @@ if __name__ == "__main__":
 
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", "data/cross.sumocfg",
-                             "--tripinfo-output", "tripinfo.xml"])
+    traci.start([sumoBinary, "-c", "data/cross.sumocfg","--tripinfo-output", "tripinfo.xml"])
     run()
