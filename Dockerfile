@@ -1,11 +1,10 @@
 FROM ubuntu:16.04
 
-MAINTAINER Bo Gao (bogao@dcs.warwick.ac.uk)
 LABEL Description="Dockerised Simulation of Urban MObility(SUMO)"
 
 ENV SUMO_VERSION 0.32.0
 ENV SUMO_HOME /opt/sumo
-ENV SUMO_USER matheuswanted
+ENV SUMO_USER=$USER
 
 # Install system dependencies.
 RUN apt-get update && apt-get -qq install \
@@ -28,6 +27,7 @@ RUN cd $SUMO_HOME && ./configure && make install
 RUN chmod -R 777 $SUMO_HOME
 RUN adduser $SUMO_USER --disabled-password
 
-workdir $SUMO_HOME/docs/tutorial/traci_tls
-cmd python2.7 runner.py --nogui && cat tripinfo.xml
+#workdir $SUMO_HOME/docs/tutorial/traci_tls
+WORKDIR app
+CMD python2.7 runner.py --nogui && cat tripinfo.xml
 # CMD sumo-gui
