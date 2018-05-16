@@ -25,7 +25,7 @@ import random
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
-    sys.path.append(os.path.join(os.environ.get("SUMO_HOME"),"/tools"))  # tutorial in tests
+    sys.path.append(os.environ.get("SUMO_HOME")+"/tools")  # tutorial in tests
     from sumolib import checkBinary  # noqa
 except ImportError:
     sys.exit(

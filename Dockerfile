@@ -13,8 +13,12 @@ RUN apt-get update && apt-get -qq install \
     make \
     libxerces-c-dev \
     libfox-1.6-0 libfox-1.6-dev \
-    python2.7 \
     vim
+
+RUN apt-get -qq install \
+    python2.7 \
+    python-numpy \ 
+    python-scipy 
 
 # Download and extract source code
 RUN wget http://downloads.sourceforge.net/project/sumo/sumo/version%20$SUMO_VERSION/sumo-src-$SUMO_VERSION.tar.gz
@@ -24,8 +28,8 @@ RUN tar xzf sumo-src-$SUMO_VERSION.tar.gz && \
 
 # Configure and build from source.
 RUN cd $SUMO_HOME && ./configure && make install
-RUN chmod -R 777 $SUMO_HOME
-RUN adduser $SUMO_USER --disabled-password
+RUN chmod -R 777 $SUMO_HOME 
+RUN adduser matheuswanted --disabled-password
 
 #workdir $SUMO_HOME/docs/tutorial/traci_tls
 WORKDIR app

@@ -8,7 +8,7 @@ class baseAgent:
 
     def load_payoff_matrix(self, players):
 
-        any_green = lambda action: any(v for v in action.lanes if v.value == 'g')
+        any_green = lambda action: any(v for i, v in enumerate(action.lanes) if v.value == 'g')
 
         for a1 in players[0].actions :
             any_green_a1 = any_green(a1)
@@ -16,7 +16,7 @@ class baseAgent:
                 self.payoff_matrix[(a1,a2)] = (-100,-100) if any_green_a1 or any_green(a2) else (0,0)
 
     def utility(self, env):
-        for lane in env.lanes:
+        for lane in env.lanes.itervalues():
             vrr = lane.capacity / (lane.occupation / env.occupation)
             orb = -1 if lane.output_occupation >= 0.95 else 1
             ru = 0
@@ -28,14 +28,15 @@ class baseAgent:
             self.lane_utility_matrix[lane.id] = UtilityValue(orb,ru)
 
     def plan_actions(self):
-        for a1, a2 in self.payoff_matrix.keys :
+        for a1, a2 in self.payoff_matrix.keys() :
             if self.payoff_matrix[(a1,a2)] != (-100,-100):
                 self.payoff_matrix[(a1,a2)] = (self.payoff(a1), self.payoff(a2))
+                print self.payoff_matrix[(a1,a2)]
 
     def payoff(self, action):
         all_red_payoff = 0
         otherwise_payoff = 0
-        for laneAction in action:
+        for i, laneAction in enumerate(action.lanes):
             utility = self.lane_utility_matrix[laneAction.id]
 
             if laneAction.value == 'r':
