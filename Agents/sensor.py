@@ -85,4 +85,6 @@ class sensor:
         self.players[0].expandActions()
         self.players[1].expandActions()
 
+        print self.players[0].actions
+
         return self.players

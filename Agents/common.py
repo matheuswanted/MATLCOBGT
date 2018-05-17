@@ -23,20 +23,8 @@ class Player:
 
     def expandActions(self):
         self.actions = []
-        for combination in  itertools.permutations('GR',len(self.lanes)):
+        for combination in  itertools.product('GR',repeat=len(self.lanes)):
             self.actions.append( Action( tuple([LaneAction(self.lanes[i].id, v) for i, v in enumerate(combination)]) ) )
-        print '1'
-        for a in self.actions:
-            print 'action'
-            print a
-            for i, b in enumerate(a.lanes):
-                print b.id + ' - ' + b.value
-        print '2'
-        for a in self.actions:
-            print 'action'
-            print a
-            for i, b in enumerate(a.lanes):
-                print b.id + ' - ' + b.value
 
 class Lane:
     def __init__(self, id):
