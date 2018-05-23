@@ -3,7 +3,7 @@ from baseAgent import *
 class autonomousPoint:
     def __init__(self, sensor):
         self.sensor = sensor
-        self.agent = baseAgent(sensor.getPlayers())
+        self.agent = baseAgent(sensor.getPlayers(), sensor.id)
 
     def update(self):
         env = self.sensor.getEnvironment()

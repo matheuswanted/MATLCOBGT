@@ -84,11 +84,12 @@ def generate_routefile():
 def run():
     """execute the TraCI control loop"""
     step = 0
-    traci.trafficlight.setPhase("0", 2)
+    #traci.trafficlight.setPhase("0", 2)
     tlss = traci.trafficlight.getIDList()
 
     TYPES_PRIORITY['typeNS'] = 7
     TYPES_PRIORITY['typeWE'] = 1
+    TYPES_PRIORITY['DEFAULT_VEHTYPE'] = 1
 
     aps = [autonomousPoint(sensor(tls)) for tls in tlss]
 
@@ -121,9 +122,9 @@ if __name__ == "__main__":
         sumoBinary = checkBinary('sumo-gui')
 
     # first, generate the route file for this simulation
-    generate_routefile()
+    #generate_routefile()
 
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", "data/cross.sumocfg","--tripinfo-output", "tripinfo.xml"])
+    traci.start([sumoBinary, "-c", "data2/mulcross.sumocfg","--tripinfo-output", "results/tripinfo.xml"])
     run()

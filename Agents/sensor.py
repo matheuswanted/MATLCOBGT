@@ -61,7 +61,9 @@ class sensor:
     def setEnvironment(self,plan):
         d = dict((lane.id, lane.value) for lane in self.chain(plan[0].lanes, plan[1].lanes))
         r = ''.join(d[lane_id] for lane_id in self.controlledLanes)
-        print r
+        r = r.replace('R','r')
+        if self.id == 'gneJ21': 
+            print r
         traci.trafficlight.setRedYellowGreenState(self.id, r)
 
     def getPlayers(self):       
@@ -71,7 +73,7 @@ class sensor:
         greeniest_phase_greens = 0
 
         for phase in config[0]._phases:
-            print phase
+            #print phase
             if greeniest_phase_greens < phase._phaseDef.lower().count('g'):
                 greeniest_phase = phase._phaseDef.lower()
                 greeniest_phase_greens = phase._phaseDef.lower().count('g')
@@ -85,6 +87,6 @@ class sensor:
         self.players[0].expandActions()
         self.players[1].expandActions()
 
-        print self.players[0].actions
+        #print self.players[0].actions
 
         return self.players
