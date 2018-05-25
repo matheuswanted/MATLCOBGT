@@ -62,8 +62,8 @@ class sensor:
         d = dict((lane.id, lane.value) for lane in self.chain(plan[0].lanes, plan[1].lanes))
         r = ''.join(d[lane_id] for lane_id in self.controlledLanes)
         r = r.replace('R','r')
-        if self.id == 'gneJ21': 
-            print r
+        #if self.id == 'gneJ21': 
+        #    print r
         traci.trafficlight.setRedYellowGreenState(self.id, r)
 
     def getPlayers(self):       

@@ -4,7 +4,7 @@
 
     <input>
         <net-file value="mulcross.net.xml"/>
-        <route-files value="routes/trips_002.rou.xml"/>
+        <route-files value="routes.rou.xml"/>
     </input>
 
     <time>
