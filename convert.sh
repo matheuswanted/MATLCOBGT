@@ -1,0 +1,1 @@
+netconvert --guess-ramps --geometry.remove --remove-edges.isolated --try-join-tls --verbose --osm-files Poa2\poa.osm --output-file Poa2\poa.net.xml
