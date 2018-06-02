@@ -1,0 +1,10 @@
+version: '3.4'
+
+services: 
+  sumo:
+    image: sumo:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./Agents:/app:rw

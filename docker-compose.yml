@@ -3,6 +3,8 @@ version: '3.3'
 services: 
   sumo:
     image: sumo:${TAG:-latest}
+    ports:
+      - "3000:3000"
     build:
       context: .
       dockerfile: Dockerfile

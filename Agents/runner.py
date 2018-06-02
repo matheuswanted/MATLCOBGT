@@ -22,6 +22,8 @@ import sys
 import optparse
 import subprocess
 import random
+import ptvsd
+ptvsd.enable_attach("my_secret", address = ('0.0.0.0', 3000))
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:

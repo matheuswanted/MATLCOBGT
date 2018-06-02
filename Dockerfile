@@ -1,10 +1,9 @@
-FROM ubuntu:16.04
+FROM ubuntu:16.04 as envi
 
 LABEL Description="Dockerised Simulation of Urban MObility(SUMO)"
 
 ENV SUMO_VERSION 0.32.0
 ENV SUMO_HOME /opt/sumo
-ENV SUMO_USER=$USER
 
 # Install system dependencies.
 RUN apt-get update && apt-get -qq install \
@@ -29,9 +28,23 @@ RUN tar xzf sumo-src-$SUMO_VERSION.tar.gz && \
 # Configure and build from source.
 RUN cd $SUMO_HOME && ./configure && make install
 RUN chmod -R 777 $SUMO_HOME 
-RUN adduser matheuswanted --disabled-password
+RUN adduser ${USER:-matheus_souza1} --disabled-password
 
-#workdir $SUMO_HOME/docs/tutorial/traci_tls
+#RUN apt-get -qq install python-pip
+FROM envi as tests
+CMD python2.7 tests.py
+
+#RUN pip install numpy scipy
+
+FROM envi
+
+RUN apt-get -qq install \
+    python-pip
+
+RUN pip install \
+     ptvsd
+
+EXPOSE 3000
 WORKDIR app
-CMD python2.7 runner.py --nogui && cat tripinfo.xml
-# CMD sumo-gui
+#CMD python2.7 -u runner.py --nogui 
+CMD BASH
