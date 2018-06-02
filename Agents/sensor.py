@@ -12,9 +12,18 @@ except ImportError:
 
 import traci
 
-def getVehiclePriority(vehId):
+def getVehiclePriority(vehId, laneSize, lane_occupation):
     t = traci.vehicle.getTypeID(vehId)
-    return TYPES_PRIORITY[t]
+    p = TYPES_PRIORITY[t]
+    if p > 1:
+        v_pos = traci.vehicle.getLanePosition(vehId)
+        v_spd = traci.vehicle.getSpeed(vehId)
+        v_pos_next = v_spd*3
+        #print (v_pos,v_spd,v_pos_next,laneSize,lane_occupation)
+        if 1-(v_pos+v_pos_next)/laneSize > max(lane_occupation,(v_pos_next-laneSize)/laneSize, 0.1):
+            p = 1
+        #print p
+    return p
 
 class sensor:
     def __init__(self, id):
@@ -32,7 +41,7 @@ class sensor:
         for k,v in self.lanes.iteritems():
             lane = subs[k]
             v.occupation = lane[LANE_OCCUPANCY]
-            v.vehicles =  [getVehiclePriority(vc) for vc in lane[LANE_V_IDS]]
+            v.vehicles =  [getVehiclePriority(vc, lane[LANE_LENGTH], v.occupation) for vc in lane[LANE_V_IDS]]
             v.vehicles_count = lane[LANE_V_NUMBER]
             v.output_occupation = numpy.mean([subs[n][LANE_OCCUPANCY] for n in v.output_lanes])
             v.capacity = math.floor(lane[LANE_LENGTH] / DEFAULT_V_LENGTH)

@@ -106,6 +106,8 @@ def get_options():
     optParser = optparse.OptionParser()
     optParser.add_option("--nogui", action="store_true",
                          default=False, help="run the commandline version of sumo")
+    optParser.add_option("-c", help="Sumo config file inside folder")
+    optParser.add_option("-t", help="Trip output")
     options, args = optParser.parse_args()
     return options
 
@@ -126,5 +128,5 @@ if __name__ == "__main__":
 
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", "data2/mulcross.sumocfg","--tripinfo-output", "results/tripinfo.xml"])
+    traci.start([sumoBinary, "-c", options.c,"--tripinfo-output", options.t])
     run()

@@ -33,8 +33,9 @@ if __name__ == "__main__":
     currDir = os.getcwd()
     if not opts.t or not opts.n or not opts.i or not opts.o:
         raise Exception('Arguments -t -n -i required')
-
-    tmp = getTmpFolder(opts.t.split('/'))
+    splitted_trips = opts.t.split('/')
+    tripFileSplitted = splitted_trips[len(splitted_trips)-1].split('.')
+    tmp = getTmpFolder(splitted_trips)
     tmpTrip, tmpNet = getTmpFile(opts.t), getTmpFile(opts.n)
     mkdir(tmp) 
     os.chdir(tmp)
@@ -51,7 +52,7 @@ if __name__ == "__main__":
 
     os.chdir(currDir)
 
-    shutil.copyfile(tmp+'/trips_%s.rou.xml'%(s) ,opts.o)
+    shutil.copyfile(tmp+'/'+tripFileSplitted[0]+'_%s.rou.xml'%(s) ,opts.o)
 
     shutil.rmtree(tmp)
     
