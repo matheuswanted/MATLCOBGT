@@ -54,16 +54,18 @@ class baseAgent:
         best_action = None
         best_payoff = (-100,-100)
         #if self.id == 'gneJ21': 
-        #    print '----------------------------'
+        print '----------------------------'
         for action, payoff in self.payoff_matrix.iteritems():
         #    if self.id == 'gneJ21' and payoff != (-100,-100): 
-        #        print action,payoff
+            print action,payoff
             #if self.id == 'gneJ21' and payoff != (-100,-100): 
             #    print '%s%s%s%s%s%s|%s%s%s%s%s%s %s %s' % (action[0].lanes[0].value, action[0].lanes[1].value, action[0].lanes[2].value, action[0].lanes[3].value, action[0].lanes[4].value, action[0].lanes[5].value, action[1].lanes[0].value, action[1].lanes[1].value, action[1].lanes[2].value, action[1].lanes[3].value, action[1].lanes[4].value, action[1].lanes[5].value, payoff, best_payoff)
             #    print payoff[0] >= best_payoff[0] and payoff[1]>= best_payoff[1]
-            if payoff[0] >= best_payoff[0] and payoff[1]>= best_payoff[1]:
+            if payoff[0] + payoff[1] > best_payoff[0] + best_payoff[1]:
                 best_payoff = payoff
                 best_action = action
+        print ""
+        print best_action,best_payoff
         return best_action
 
     def update(self, env):

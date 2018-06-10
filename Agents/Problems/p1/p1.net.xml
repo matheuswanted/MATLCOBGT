@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on Sat Jun  9 19:44:54 2018 by Netedit Version 0.32.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="Problems/p1/p1.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="Problems/p1/p1.net.xml"/>
+    </output>
+
+    <processing>
+        <no-turnarounds value="true"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+        <junctions.corner-detail value="0"/>
+        <rectangular-lane-cut value="false"/>
+        <walkingareas value="false"/>
+    </processing>
+
+</configuration>
+-->
+
+<net version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="10.48,25.21,113.60,60.54" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id=":gneJ1_0" function="internal">
+        <lane id=":gneJ1_0_0" index="0" speed="13.89" length="5.00" shape="59.42,55.79 59.61,57.15 60.20,58.11 61.16,58.70 62.52,58.89"/>
+    </edge>
+    <edge id=":gneJ1_1" function="internal">
+        <lane id=":gneJ1_1_0" index="0" speed="13.89" length="5.00" shape="53.02,58.89 54.38,58.70 55.34,58.11 55.93,57.15 56.12,55.79"/>
+    </edge>
+    <edge id=":gneJ1_2" function="internal">
+        <lane id=":gneJ1_2_0" index="0" speed="13.89" length="9.50" shape="53.02,58.89 62.52,58.89"/>
+    </edge>
+    <edge id=":st_tls_01_0" function="internal">
+        <lane id=":st_tls_01_0_0" index="0" speed="13.89" length="0.30" shape="56.12,40.08 56.12,39.78"/>
+    </edge>
+    <edge id=":st_tls_01_1" function="internal">
+        <lane id=":st_tls_01_1_0" index="0" speed="13.89" length="0.30" shape="59.42,39.78 59.42,40.08"/>
+    </edge>
+
+    <edge id="-e2" from="st_tls_01" to="gneJ1" priority="1">
+        <lane id="-e2_0" index="0" speed="13.89" length="15.71" shape="59.42,40.08 59.42,55.79"/>
+    </edge>
+    <edge id="-gneE4" from="gneJ5" to="st_tls_01" priority="1">
+        <lane id="-gneE4_0" index="0" speed="13.89" length="14.57" shape="59.43,25.21 59.42,39.78"/>
+    </edge>
+    <edge id="e1" from="gneJ0" to="gneJ1" priority="1">
+        <lane id="e1_0" index="0" speed="13.89" length="42.54" shape="10.48,58.89 53.02,58.89"/>
+    </edge>
+    <edge id="e2" from="gneJ1" to="st_tls_01" priority="1">
+        <lane id="e2_0" index="0" speed="13.89" length="15.71" shape="56.12,55.79 56.12,40.08"/>
+    </edge>
+    <edge id="e3" from="st_tls_01" to="gneJ5" priority="1">
+        <lane id="e3_0" index="0" speed="13.89" length="14.57" shape="56.12,39.78 56.13,25.21"/>
+    </edge>
+    <edge id="e4" from="gneJ1" to="gneJ3" priority="1">
+        <lane id="e4_0" index="0" speed="13.89" length="51.08" shape="62.52,58.89 113.60,58.89"/>
+    </edge>
+
+    <tlLogic id="gneJ1" type="actuated" programID="0" offset="0">
+        <phase duration="42" state="rGG"/>
+    </tlLogic>
+    <tlLogic id="st_tls_01" type="static" programID="0" offset="0">
+        <phase duration="5" state="rr"/>
+    </tlLogic>
+
+    <junction id="gneJ0" type="dead_end" x="10.48" y="60.54" incLanes="" intLanes="" shape="10.48,60.49 10.48,57.29"/>
+    <junction id="gneJ1" type="traffic_light" x="57.77" y="60.54" incLanes="-e2_0 e1_0" intLanes=":gneJ1_0_0 :gneJ1_1_0 :gneJ1_2_0" shape="62.52,60.49 62.52,57.29 61.02,55.79 54.52,55.79 53.02,57.29 53.02,60.49">
+        <request index="0" response="000" foes="100" cont="0"/>
+        <request index="1" response="000" foes="000" cont="0"/>
+        <request index="2" response="001" foes="001" cont="0"/>
+    </junction>
+    <junction id="gneJ3" type="dead_end" x="113.60" y="60.54" incLanes="e4_0" intLanes="" shape="113.60,57.29 113.60,60.49"/>
+    <junction id="gneJ5" type="dead_end" x="57.78" y="25.21" incLanes="e3_0" intLanes="" shape="57.83,25.21 54.53,25.21 57.73,25.21"/>
+    <junction id="st_tls_01" type="traffic_light" x="57.77" y="39.93" incLanes="e2_0 -gneE4_0" intLanes=":st_tls_01_0_0 :st_tls_01_1_0" shape="54.52,40.08 61.02,40.08 61.02,39.78 54.52,39.78">
+        <request index="0" response="00" foes="00" cont="0"/>
+        <request index="1" response="00" foes="00" cont="0"/>
+    </junction>
+
+    <connection from="-e2" to="e4" fromLane="0" toLane="0" via=":gneJ1_0_0" tl="gneJ1" linkIndex="0" dir="r" state="o"/>
+    <connection from="-gneE4" to="-e2" fromLane="0" toLane="0" via=":st_tls_01_1_0" tl="st_tls_01" linkIndex="1" dir="s" state="o"/>
+    <connection from="e1" to="e2" fromLane="0" toLane="0" via=":gneJ1_1_0" tl="gneJ1" linkIndex="1" dir="r" state="o"/>
+    <connection from="e1" to="e4" fromLane="0" toLane="0" via=":gneJ1_2_0" tl="gneJ1" linkIndex="2" dir="s" state="o"/>
+    <connection from="e2" to="e3" fromLane="0" toLane="0" via=":st_tls_01_0_0" tl="st_tls_01" linkIndex="0" dir="s" state="o"/>
+
+    <connection from=":gneJ1_0" to="e4" fromLane="0" toLane="0" dir="r" state="M"/>
+    <connection from=":gneJ1_1" to="e2" fromLane="0" toLane="0" dir="r" state="M"/>
+    <connection from=":gneJ1_2" to="e4" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":st_tls_01_0" to="e3" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":st_tls_01_1" to="-e2" fromLane="0" toLane="0" dir="s" state="M"/>
+
+</net>

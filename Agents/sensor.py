@@ -82,7 +82,7 @@ class sensor:
         greeniest_phase_greens = 0
 
         for phase in config[0]._phases:
-            #print phase
+            print phase
             if greeniest_phase_greens < phase._phaseDef.lower().count('g'):
                 greeniest_phase = phase._phaseDef.lower()
                 greeniest_phase_greens = phase._phaseDef.lower().count('g')
@@ -92,6 +92,7 @@ class sensor:
                 self.players[0].lanes.append(self.lanes[self.controlledLanes[i]])
             else:
                 self.players[1].lanes.append(self.lanes[self.controlledLanes[i]])
+
 
         self.players[0].expandActions()
         self.players[1].expandActions()
