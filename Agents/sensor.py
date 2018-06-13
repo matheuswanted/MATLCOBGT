@@ -49,7 +49,7 @@ class sensor:
 
                 
     def load(self):
-        print "loading sensor"
+        #print "loading sensor"
         for l in self.links:
             if not self.lanes.has_key(l[0][0]):
                 self.lanes[l[0][0]] = Lane(l[0][0])
@@ -82,7 +82,7 @@ class sensor:
         greeniest_phase_greens = 0
 
         for phase in config[0]._phases:
-            print phase
+            #print phase
             if greeniest_phase_greens < phase._phaseDef.lower().count('g'):
                 greeniest_phase = phase._phaseDef.lower()
                 greeniest_phase_greens = phase._phaseDef.lower().count('g')
