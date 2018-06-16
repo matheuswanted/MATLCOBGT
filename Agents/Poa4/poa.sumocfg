@@ -17,5 +17,9 @@
         <no-step-log value="true"/>
     </report>
 
+    <output>
+        <tripinfo-output value="../results/poa4trip.xml" />
+    </output>
+
 
 </configuration>

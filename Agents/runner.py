@@ -36,26 +36,22 @@ except ImportError:
 import traci
 from autonomousPoint import autonomousPoint
 from sensor import sensor
-from common import TYPES_PRIORITY
+from common import TYPES_PRIORITY, environmenClock
 
 def run(all_tls):
     """execute the TraCI control loop"""
-    step = 0
-    #traci.trafficlight.setPhase("0", 2)
     tlss = traci.trafficlight.getIDList()
 
     TYPES_PRIORITY['typeNS'] = 7
     TYPES_PRIORITY['typeWE'] = 1
     TYPES_PRIORITY['DEFAULT_VEHTYPE'] = 1
     TYPES_PRIORITY['PRT'] = 1
+    clock = environmenClock(traci)
+    aps = [autonomousPoint(tls, clock) for tls in tlss if all_tls or tls.split("_")[0] != 'st']
 
-    aps = [autonomousPoint(sensor(tls)) for tls in tlss if all_tls or tls.split("_")[0] != 'st']
-
-    while traci.simulation.getMinExpectedNumber() > 0:
-        traci.simulationStep()
+    while clock.run():
         for ap in aps:
             ap.update()
-        step += 1
     traci.close()
     sys.stdout.flush()
 
@@ -66,7 +62,6 @@ def get_options():
                          default=False, help="run the commandline version of sumo")
     optParser.add_option("--onlyactuated", action="store_true", default=False)
     optParser.add_option("-c", help="Sumo config file inside folder")
-    optParser.add_option("-t", help="Trip output")
     options, args = optParser.parse_args()
     return options
 
@@ -87,5 +82,5 @@ if __name__ == "__main__":
 
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", options.c,"--tripinfo-output", options.t, "--ignore-route-errors"])
+    traci.start([sumoBinary, "-c", options.c, "--ignore-route-errors"])
     run(not options.onlyactuated)

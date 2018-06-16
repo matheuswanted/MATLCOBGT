@@ -32,6 +32,7 @@ class sensor:
         self.controlledLanes = traci.trafficlight.getControlledLanes(self.id)
         self.lanes = {}
         self.players = [Player(), Player()]
+        self.players_loaded = False
         self.load()
 
     def getEnvironment(self):
@@ -40,11 +41,14 @@ class sensor:
 
         for k,v in self.lanes.iteritems():
             lane = subs[k]
+            v.id = k
             v.occupation = lane[LANE_OCCUPANCY]
             v.vehicles =  [getVehiclePriority(vc, lane[LANE_LENGTH], v.occupation) for vc in lane[LANE_V_IDS]]
             v.vehicles_count = lane[LANE_V_NUMBER]
             v.output_occupation = numpy.mean([subs[n][LANE_OCCUPANCY] for n in v.output_lanes])
             v.capacity = math.floor(lane[LANE_LENGTH] / DEFAULT_V_LENGTH)
+            #v.width = lane[LANE_WIDTH]
+            #v.max_speed = lane[LANE_SPEED]
         return Environment(numpy.mean([l.occupation for l in self.lanes.itervalues()]), self.lanes)
 
                 
@@ -68,20 +72,15 @@ class sensor:
     def subscribeLane(self,laneId):
         traci.lane.subscribe(laneId, [LANE_OCCUPANCY, LANE_V_NUMBER, LANE_V_IDS, LANE_LENGTH])
 
-    def chain(self, *tuples):
-        for t in tuples:
-            for i, v in enumerate(t):
-                yield v
-
     def setEnvironment(self,plan):
-        d = dict((lane.id, lane.value) for lane in self.chain(plan[0].lanes, plan[1].lanes))
-        r = ''.join(d[lane_id] for lane_id in self.controlledLanes)
-        r = r.replace('R','r')
-        #if self.id == 'gneJ21': 
-        #    print r
-        traci.trafficlight.setRedYellowGreenState(self.id, r)
+        traci.trafficlight.setRedYellowGreenState(self.id, plan)
 
-    def getPlayers(self):       
+    def getControlledLanes(self):
+        return self.controlledLanes
+
+    def getPlayers(self):
+        if self.players_loaded:
+            return self.players    
         config = traci.trafficlight.getCompleteRedYellowGreenDefinition(self.id)
 
         greeniest_phase = ""

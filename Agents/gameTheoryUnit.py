@@ -1,6 +1,6 @@
 from common import *
     
-class baseAgent:
+class gameTheoryUnit:
     def __init__(self, players, id):
         self.lane_utility_matrix = dict()
         self.payoff_matrix = dict()
