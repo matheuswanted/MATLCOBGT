@@ -47,6 +47,7 @@ def run(all_tls):
     TYPES_PRIORITY['typeNS'] = 7
     TYPES_PRIORITY['typeWE'] = 1
     TYPES_PRIORITY['DEFAULT_VEHTYPE'] = 1
+    TYPES_PRIORITY['PRT'] = 1
 
     aps = [autonomousPoint(sensor(tls)) for tls in tlss if all_tls or tls.split("_")[0] != 'st']
 
@@ -86,5 +87,5 @@ if __name__ == "__main__":
 
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", options.c,"--tripinfo-output", options.t])
+    traci.start([sumoBinary, "-c", options.c,"--tripinfo-output", options.t, "--ignore-route-errors"])
     run(not options.onlyactuated)

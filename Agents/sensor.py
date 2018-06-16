@@ -51,13 +51,19 @@ class sensor:
     def load(self):
         #print "loading sensor"
         for l in self.links:
-            if not self.lanes.has_key(l[0][0]):
-                self.lanes[l[0][0]] = Lane(l[0][0])
-            if l[0][1]:
-                self.lanes[l[0][0]].output_lanes.append(l[0][1])
+            try:
+                if not self.lanes.has_key(l[0][0]):
+                    self.lanes[l[0][0]] = Lane(l[0][0])
+                if l[0][1]:
+                    self.lanes[l[0][0]].output_lanes.append(l[0][1])
 
-            self.subscribeLane(l[0][0])
-            self.subscribeLane(l[0][1])
+                self.subscribeLane(l[0][0])
+                self.subscribeLane(l[0][1])
+            except Exception as e:
+                print self.id
+                print l
+                raise e
+
 
     def subscribeLane(self,laneId):
         traci.lane.subscribe(laneId, [LANE_OCCUPANCY, LANE_V_NUMBER, LANE_V_IDS, LANE_LENGTH])
