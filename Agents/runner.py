@@ -22,6 +22,8 @@ import sys
 import optparse
 import subprocess
 import random
+#import multiprocessing
+
 #import ptvsd
 #ptvsd.enable_attach("my_secret", address = ('0.0.0.0', 3000))
 
@@ -34,9 +36,14 @@ except ImportError:
         "please declare environment variable 'SUMO_HOME' as the root directory of your sumo installation (it should contain folders 'bin', 'tools' and 'docs')")
 
 import traci
+import threading
 from autonomousPoint import autonomousPoint
 from sensor import sensor
-from common import TYPES_PRIORITY, environmenClock
+from common import *
+
+def update(ap):
+    ap.update()
+    return 1
 
 def run(all_tls):
     """execute the TraCI control loop"""
@@ -47,9 +54,25 @@ def run(all_tls):
     TYPES_PRIORITY['DEFAULT_VEHTYPE'] = 1
     TYPES_PRIORITY['PRT'] = 1
     clock = environmenClock(traci)
+    v_mem = VehicleMemory(traci)
+    l_mem = LaneMemory(traci)
+    
     aps = [autonomousPoint(tls, clock) for tls in tlss if all_tls or tls.split("_")[0] != 'st']
+    
 
     while clock.run():
+        loaded = traci.simulation.getDepartedIDList()
+        for v_id in loaded:
+            tp = traci.vehicle.getTypeID(v_id)
+            v_mem.put(v_id, Vehicle(tp))
+        loaded = traci.simulation.getArrivedIDList()
+
+        for v_id in loaded:
+            v_mem.remove(v_id)
+        
+        v_mem.update_context()   
+        l_mem.update_context() 
+        
         for ap in aps:
             ap.update()
     traci.close()

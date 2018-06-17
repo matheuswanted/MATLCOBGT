@@ -45,7 +45,8 @@ RUN pip install --upgrade pip
 RUN pip install \
     ptvsd \
     pyopengl \
-    matplotlib
+    matplotlib \
+    joblib
 
 run echo "deb http://old-releases.ubuntu.com/ubuntu wily main universe" | tee /etc/apt/sources.list.d/trusty-copies.list
 run apt-get update

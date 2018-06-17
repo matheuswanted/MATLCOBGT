@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <vehicles>
-  <flow id="f1_i" begin="0" end="3600" vehsPerHour="800" fromTaz="SRC_IN_0" toTaz="DST_OUT" via="108708332"/>
-  <flow id="f2_i" begin="0" end="3600" vehsPerHour="500" fromTaz="SRC_IN_1" toTaz="DST_OUT" via="108708332"/>
-  <flow id="f3_i" begin="0" end="3600" vehsPerHour="3000" fromTaz="SRC_IN_2" toTaz="DST_OUT" via="108708332"/>
-  <flow id="f1_o" begin="0" end="3600" vehsPerHour="800" fromTaz="SRC_OUT" toTaz="DST_IN"/>
-  <flow id="f2_o" begin="0" end="3600" vehsPerHour="800" fromTaz="SRC_OUT_2" toTaz="DST_IN"/>
+  <flow id="f1_i" begin="0" end="2000" vehsPerHour="800" fromTaz="SRC_IN_0" toTaz="DST_OUT" via="108708332"/>
+  <flow id="f2_i" begin="0" end="2000" vehsPerHour="500" fromTaz="SRC_IN_1" toTaz="DST_OUT" via="108708332"/>
+  <flow id="f3_i" begin="0" end="2000" vehsPerHour="3000" fromTaz="SRC_IN_2" toTaz="DST_OUT" via="108708332"/>
+  <flow id="f1_o" begin="0" end="2000" vehsPerHour="800" fromTaz="SRC_OUT" toTaz="DST_IN"/>
+  <flow id="f2_o" begin="0" end="2000" vehsPerHour="800" fromTaz="SRC_OUT_2" toTaz="DST_IN"/>
 </vehicles>

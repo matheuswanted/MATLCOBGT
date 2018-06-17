@@ -11,7 +11,6 @@ class controlUnit:
         self.last_change = -100
         self.sensor = sensor
         self.mid_transition = False
-        #self.num_players = len(sensor.getPlayers())
 
     def chain(self, *tuples):
         for t in tuples:
@@ -44,7 +43,7 @@ class controlUnit:
     def execute_transition(self, next_plan):
         plan = self.convert_plan(next_plan)
 
-        if self.last_plan == '': #or self.num_players <2:
+        if self.last_plan == '':
             self.simple_transition_strategy(plan)
 
         elif plan != self.last_plan:

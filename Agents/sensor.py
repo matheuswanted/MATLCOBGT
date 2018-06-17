@@ -12,12 +12,11 @@ except ImportError:
 
 import traci
 
-def getVehiclePriority(vehId, laneSize, lane_occupation):
-    t = traci.vehicle.getTypeID(vehId)
-    p = TYPES_PRIORITY[t]
-    if p > 1:
-        v_pos = traci.vehicle.getLanePosition(vehId)
-        v_spd = traci.vehicle.getSpeed(vehId)
+def getVehiclePriority(veh, laneSize, lane_occupation):
+    p = veh.type
+    if veh.type > 1:
+        v_pos = veh.lanePosition
+        v_spd = veh.speed
         v_pos_next = v_spd*3
         #print (v_pos,v_spd,v_pos_next,laneSize,lane_occupation)
         if 1-(v_pos+v_pos_next)/laneSize > max(lane_occupation,(v_pos_next-laneSize)/laneSize, 0.1):
@@ -34,21 +33,21 @@ class sensor:
         self.players = [Player(), Player()]
         self.players_loaded = False
         self.load()
+        self.v_mem = VehicleMemory(None)
+        self.l_mem = LaneMemory(None)
 
     def getEnvironment(self):
 
-        subs = traci.lane.getSubscriptionResults()
+        subs = self.l_mem.get_lanes()
 
         for k,v in self.lanes.iteritems():
             lane = subs[k]
             v.id = k
             v.occupation = lane[LANE_OCCUPANCY]
-            v.vehicles =  [getVehiclePriority(vc, lane[LANE_LENGTH], v.occupation) for vc in lane[LANE_V_IDS]]
+            v.vehicles =  [getVehiclePriority(self.v_mem.get(vc), lane[LANE_LENGTH], v.occupation) for vc in lane[LANE_V_IDS]]
             v.vehicles_count = lane[LANE_V_NUMBER]
             v.output_occupation = numpy.mean([subs[n][LANE_OCCUPANCY] for n in v.output_lanes])
             v.capacity = math.floor(lane[LANE_LENGTH] / DEFAULT_V_LENGTH)
-            #v.width = lane[LANE_WIDTH]
-            #v.max_speed = lane[LANE_SPEED]
         return Environment(numpy.mean([l.occupation for l in self.lanes.itervalues()]), self.lanes)
 
                 
