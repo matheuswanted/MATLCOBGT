@@ -32,6 +32,7 @@ class sensor:
         self.lanes = {}
         self.players = [Player(), Player()]
         self.players_loaded = False
+        self.has_vehicles = False   
         self.load()
         self.v_mem = VehicleMemory(None)
         self.l_mem = LaneMemory(None)
@@ -39,6 +40,7 @@ class sensor:
     def getEnvironment(self):
 
         subs = self.l_mem.get_lanes()
+        self.has_vehicles = False        
 
         for k,v in self.lanes.iteritems():
             lane = subs[k]
@@ -48,6 +50,8 @@ class sensor:
             v.vehicles_count = lane[LANE_V_NUMBER]
             v.output_occupation = numpy.mean([subs[n][LANE_OCCUPANCY] for n in v.output_lanes])
             v.capacity = math.floor(lane[LANE_LENGTH] / DEFAULT_V_LENGTH)
+            if not self.has_vehicles and v.vehicles_count > 0:
+                self.has_vehicles = True
         return Environment(numpy.mean([l.occupation for l in self.lanes.itervalues()]), self.lanes)
 
                 
@@ -79,7 +83,8 @@ class sensor:
 
     def getPlayers(self):
         if self.players_loaded:
-            return self.players    
+            return self.players
+        self.players_loaded = True
         config = traci.trafficlight.getCompleteRedYellowGreenDefinition(self.id)
 
         greeniest_phase = ""

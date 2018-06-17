@@ -60,8 +60,8 @@ class autonomousPoint:
 
     def update(self):
         if not self.controlUnit.mid_transition:
-            if self.controlUnit.minimun_green_achieved():
-                env = self.sensor.getEnvironment()
+            env = self.sensor.getEnvironment()
+            if self.controlUnit.minimun_green_achieved() and self.sensor.has_vehicles:
                 plan = self.agent.update(env)
                 self.controlUnit.execute_transition(plan)
         else:
