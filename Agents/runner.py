@@ -22,7 +22,8 @@ import sys
 import optparse
 import subprocess
 import random
-#import multiprocessing
+import multiprocessing
+from joblib import Parallel, delayed
 
 #import ptvsd
 #ptvsd.enable_attach("my_secret", address = ('0.0.0.0', 3000))
@@ -56,10 +57,11 @@ def run(all_tls):
     clock = environmenClock(traci)
     v_mem = VehicleMemory(traci)
     l_mem = LaneMemory(traci)
+    t_mem = TrafficLightMemory(traci)
     
     aps = [autonomousPoint(tls, clock) for tls in tlss if all_tls or tls.split("_")[0] != 'st']
-    
-
+    num_cores = multiprocessing.cpu_count()
+    #with Parallel(n_jobs=num_cores, backend="threading") as parallel:
     while clock.run():
         loaded = traci.simulation.getDepartedIDList()
         for v_id in loaded:
@@ -73,8 +75,11 @@ def run(all_tls):
         v_mem.update_context()   
         l_mem.update_context() 
         
+        #parallel(delayed(update)(ap) for ap in aps)
         for ap in aps:
             ap.update()
+        #t_mem.update_context()
+
     traci.close()
     sys.stdout.flush()
 

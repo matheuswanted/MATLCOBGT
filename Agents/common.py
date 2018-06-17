@@ -38,6 +38,23 @@ class LaneMemory:
     def update_context(self):
         self.mem = self.traci.lane.getSubscriptionResults()
 
+class TrafficLightMemory:
+    __metaclass__ = Singleton
+    
+    def __init__(self,traci):
+        self.traci = traci
+        self.mem = []
+
+    def update_traffic_light(self, phase):
+        self.mem.append(phase)
+
+    def update_context(self):
+        for phase in self.mem:
+            self.traci.trafficlight.setRedYellowGreenState(phase[0], phase[1])
+        self.mem = []
+
+
+
 class VehicleMemory:
     __metaclass__ = Singleton
     def __init__(self, traci):

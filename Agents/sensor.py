@@ -36,6 +36,7 @@ class sensor:
         self.load()
         self.v_mem = VehicleMemory(None)
         self.l_mem = LaneMemory(None)
+        self.t_mem = TrafficLightMemory(None)
 
     def getEnvironment(self):
 
@@ -76,6 +77,7 @@ class sensor:
         traci.lane.subscribe(laneId, [LANE_OCCUPANCY, LANE_V_NUMBER, LANE_V_IDS, LANE_LENGTH])
 
     def setEnvironment(self,plan):
+        #self.t_mem.update_traffic_light((self.id, plan))
         traci.trafficlight.setRedYellowGreenState(self.id, plan)
 
     def getControlledLanes(self):
