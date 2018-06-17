@@ -4,6 +4,7 @@
 
     <input>
         <net-file value="poa.net.xml"/>
+        <additional-files value="poa.st.dump.xml"/>
         <!--route-files value="poa.rou.xml"/-->
         <route-files value="scenario/poa.rou.xml"/>
     </input>
@@ -18,7 +19,7 @@
     </report>
 
     <output>
-        <tripinfo-output value="../results/poa4trip.xml" />
+        <tripinfo-output value="../results/poa4trip.st.xml" />
     </output>
 
 

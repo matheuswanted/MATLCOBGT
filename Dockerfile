@@ -53,6 +53,7 @@ run apt-get update
 run apt-get -qq -f install python-wxgtk2.8
 run rm /etc/apt/sources.list.d/trusty-copies.list
 run apt-get update
+run apt-get -qq -f install python-tk
 
 EXPOSE 3000
 WORKDIR app
