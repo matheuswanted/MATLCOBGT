@@ -4,6 +4,7 @@
 
     <input>
         <net-file value="poa.net.xml"/>
+        <additional-files value="poa.additional.xml" />
         <route-files value="poa.rou.xml"/>
     </input>
 
