@@ -50,8 +50,8 @@ def run(all_tls):
     """execute the TraCI control loop"""
     tlss = traci.trafficlight.getIDList()
 
-    TYPES_PRIORITY['typeNS'] = 7
-    TYPES_PRIORITY['typeWE'] = 1
+    TYPES_PRIORITY['priorityVeh'] = 7
+    TYPES_PRIORITY['regularVeh'] = 1
     TYPES_PRIORITY['DEFAULT_VEHTYPE'] = 1
     TYPES_PRIORITY['PRT'] = 1
     clock = environmenClock(traci)
@@ -90,6 +90,7 @@ def get_options():
                          default=False, help="run the commandline version of sumo")
     optParser.add_option("--onlyactuated", action="store_true", default=False)
     optParser.add_option("-c", help="Sumo config file inside folder")
+    optParser.add_option("-t", help="Trip output")
     options, args = optParser.parse_args()
     return options
 
@@ -110,5 +111,5 @@ if __name__ == "__main__":
 
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
-    traci.start([sumoBinary, "-c", options.c, "--ignore-route-errors"])
+    traci.start([sumoBinary, "-c", options.c, "--tripinfo-output", options.t, "--ignore-route-errors"])
     run(not options.onlyactuated)
