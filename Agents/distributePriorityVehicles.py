@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import xml.etree.ElementTree as ET
+import optparse
 import os
 
 commonTypeLabel = 'regularVeh'
 highPriorityLabel = 'priorityVeh'
-folder = 'Poa2'
+folder = 'Poa4'
 route = folder + '/poa.rou.xml'
 network = folder + '/poa.net.xml'
 link = folder + '/poa.link.xml'
@@ -12,7 +13,7 @@ dump = folder + '/poa.dump.xml'
 tripinfo = folder + '/tripinfo.xml'
 additional = folder + '/poa.additional.xml'
 statistics = folder + '/statistics.csv'
-config = folder + '/poa.sumocfg'
+config = folder + '/poa.st.sumocfg'
 proportions = [10, 100, 1000]
 
 def distributeVehiclesOnRoutes (path, proportion):
@@ -42,14 +43,26 @@ def destinationPath(proportion, path):
     destSplit[len(destSplit)-1] = '1per' + str(proportion) + '.' + destSplit[len(destSplit)-1]
     return '/'.join(destSplit)
 
+def get_options():
+    optParser = optparse.OptionParser()
+    optParser.add_option("--static_tls", action="store_true", default=False)
+    optParser.add_option("--route_only", action="store_true", default=False)
+    return optParser.parse_args()[0]
+
 if __name__ == "__main__":
     results = []
+    options = get_options()
     for proportion in proportions:
         priorityRoute = distributeVehiclesOnRoutes(route, proportion)
         priorityTripinfo = destinationPath(proportion,tripinfo)
         priorityDump = destinationPath(proportion,dump)
         priorityLink = destinationPath(proportion,link)
         priorityConfig = configFileSetRoute(config,priorityRoute,proportion)
-        #os.system("./runner.py -c %s -t %s --nogui"%(priorityConfig, priorityTripinfo))
+        if not options.route_only:
+            if options.static_tls:
+                os.system("sumo -c %s --tripinfo-output %s"%(priorityConfig, priorityTripinfo))
+            else:
+                os.system("./runner.py -c %s -t %s --nogui"%(priorityConfig, priorityTripinfo))
+
         results.append(priorityTripinfo)
     os.system("python ./statistics.py -t %s -o %s"%(','.join(results),statistics))

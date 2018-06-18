@@ -4,9 +4,9 @@
 
     <input>
         <net-file value="poa.net.xml"/>
-        <additional-files value="poa.st.dump.xml"/>
+        <additional-files value="poa.st.dump.xml poa.additional.xml"/>
         <!--route-files value="poa.rou.xml"/-->
-        <route-files value="scenario/poa.rou.xml"/>
+        <route-files value="poa.rou.xml"/>
     </input>
 
     <time>
@@ -18,9 +18,9 @@
         <no-step-log value="true"/>
     </report>
 
-    <output>
+    <!--output>
         <tripinfo-output value="../results/poa4trip.st.xml" />
-    </output>
+    </output-->
 
 
 </configuration>
