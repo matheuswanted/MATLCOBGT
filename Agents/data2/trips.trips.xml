@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- generated on 2018-05-23 16:22:42.738253 by $Id$
-  options: -n ../mulcross.net.xml -e 500
--->
-<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <trip id="0" depart="0.00" from="gneE22" to="-gneE30"/>
-    <trip id="1" depart="0.00" from="gneE30" to="-gneE22"/>
-
-</routes>
