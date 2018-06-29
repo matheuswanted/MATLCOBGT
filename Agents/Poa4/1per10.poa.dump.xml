@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on Sun Jun 17 02:20:13 2018 by SUMO Version 0.32.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="Poa4/poa.net.xml"/>
+        <route-files value="Poa4/1per10.poa.rou.xml"/>
+    </input>
+
+    <output>
+        <netstate-dump value="Poa4/1per10.poa.dump.xml"/>
+        <tripinfo-output value="Poa4/1per10.tripinfo.xml"/>
+        <link-output value="Poa4/1per10.poa.link.xml"/>
+    </output>
+
+    <traci_server>
+        <remote-port value="55479"/>
+    </traci_server>
+
+</configuration>
+-->
+
+<netstate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netstate_file.xsd">
+</netstate>

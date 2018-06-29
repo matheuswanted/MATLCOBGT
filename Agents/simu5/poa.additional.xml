@@ -1,0 +1,4 @@
+ <additional>
+    <vType id="priorityVeh" accel="2.6" decel="4.5" length="5" maxSpeed="70" sigma="0.5" minGap="2.5" color="yellow"/>
+    <vType id="regularVeh" accel="2.6" decel="4.5" length="5" maxSpeed="70" sigma="0.5" minGap="2.5" color="green"/>
+ </additional>
