@@ -4,6 +4,7 @@ LABEL Description="Dockerised Simulation of Urban MObility(SUMO)"
 
 ENV SUMO_VERSION 0.32.0
 ENV SUMO_HOME /opt/sumo
+ENV DISPLAY ${DISPLAY:-10.0.75.1:0}
 
 # Install system dependencies.
 RUN apt-get update && apt-get -qq install \
@@ -12,7 +13,11 @@ RUN apt-get update && apt-get -qq install \
     make \
     libxerces-c-dev \
     libfox-1.6-0 libfox-1.6-dev \
-    vim
+    vim \
+    libproj-dev \
+    libgdal-dev \
+    libxerces-c-dev \ 
+    libfox-1.6-dev
 
 RUN apt-get -qq install \
     python2.7 \
@@ -29,7 +34,7 @@ RUN tar xzf sumo-src-$SUMO_VERSION.tar.gz && \
 # Configure and build from source.
 RUN cd $SUMO_HOME && ./configure && make install
 RUN chmod -R 777 $SUMO_HOME 
-RUN adduser matheuswanted --disabled-password
+RUN adduser ${USER:-matheus_souza1} --disabled-password
 
 #RUN apt-get -qq install python-pip
 FROM envi as tests
@@ -46,16 +51,17 @@ RUN pip install \
     ptvsd \
     pyopengl \
     matplotlib \
-    joblib
+    joblib \
+    pandas
 
 run echo "deb http://old-releases.ubuntu.com/ubuntu wily main universe" | tee /etc/apt/sources.list.d/trusty-copies.list
-run apt-get update
-run apt-get -qq -f install python-wxgtk2.8
+run apt-get update && apt-get -qq -f install python-wxgtk2.8
 run rm /etc/apt/sources.list.d/trusty-copies.list
-run apt-get update
 run apt-get -qq -f install python-tk
+
 
 EXPOSE 3000
 WORKDIR app
 #CMD python2.7 -u runner.py --nogui 
+
 CMD BASH

@@ -1,0 +1,14 @@
+FROM sumo:latest
+env map_path ${map_path:-Poa2}
+env interations ${interations:-10}
+copy . .
+workdir Agents
+run mkdir simu
+run for i in `seq 1 $interations`; do mkdir simu$i && \
+    cp $map_path/poa.net.xml simu$i/poa.net.xml &&\
+    cp $map_path/poa.sumocfg simu$i/poa.sumocfg &&\
+    cp $map_path/poa.additional.xml simu$i/poa.additional.xml &&\
+    $SUMO_HOME/tools/randomTrips.py -n simu$i/poa.net.xml -o simu$i/poa.trips.xml --validate && \
+    ./genRoute.py -n simu$i/poa.net.xml -t simu$i/poa.trips.xml -o  simu$i/poa.rou.xml -i $i &&\
+    python ./distributePriorityVehicles.py -f simu$i; done
+

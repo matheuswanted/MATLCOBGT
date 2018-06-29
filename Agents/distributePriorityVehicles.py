@@ -1,20 +1,10 @@
 #!/usr/bin/env python
 import xml.etree.ElementTree as ET
-import optparse
 import os
+import optparse
 
 commonTypeLabel = 'regularVeh'
 highPriorityLabel = 'priorityVeh'
-folder = 'Poa4'
-route = folder + '/poa.rou.xml'
-network = folder + '/poa.net.xml'
-link = folder + '/poa.link.xml'
-dump = folder + '/poa.dump.xml'
-tripinfo = folder + '/tripinfo.xml'
-additional = folder + '/poa.additional.xml'
-statistics = folder + '/statistics.csv'
-config = folder + '/poa.st.sumocfg'
-proportions = [10, 100, 1000]
 
 def distributeVehiclesOnRoutes (path, proportion):
     dest = destinationPath(proportion, path)
@@ -45,24 +35,36 @@ def destinationPath(proportion, path):
 
 def get_options():
     optParser = optparse.OptionParser()
-    optParser.add_option("--static_tls", action="store_true", default=False)
-    optParser.add_option("--route_only", action="store_true", default=False)
-    return optParser.parse_args()[0]
+    optParser.add_option("-f", help="folder")
+    options, args = optParser.parse_args()
+    return options
 
 if __name__ == "__main__":
-    results = []
     options = get_options()
+    folder = options.f
+    route = folder + '/poa.rou.xml'
+    network = folder + '/poa.net.xml'
+    link = folder + '/poa.link.xml'
+    dump = folder + '/poa.dump.xml'
+    config = folder + '/poa.sumocfg'
+    proportions = [10, 100, 1000]
+
+    tripinfoMacro = folder + '/tripinfo%s.xml'
+    statisticsMacro = folder + '/statistics%s.csv'
+    resultsST = []
+    resultsP = []
+    resultsNP = []
     for proportion in proportions:
         priorityRoute = distributeVehiclesOnRoutes(route, proportion)
-        priorityTripinfo = destinationPath(proportion,tripinfo)
-        priorityDump = destinationPath(proportion,dump)
-        priorityLink = destinationPath(proportion,link)
+        priorityTripinfo = destinationPath(proportion,tripinfoMacro)
         priorityConfig = configFileSetRoute(config,priorityRoute,proportion)
-        if not options.route_only:
-            if options.static_tls:
-                os.system("sumo -c %s --tripinfo-output %s"%(priorityConfig, priorityTripinfo))
-            else:
-                os.system("./runner.py -c %s -t %s --nogui"%(priorityConfig, priorityTripinfo))
+        os.system("./runner.py -c %s -t %s --nopriority --nogui"%(priorityConfig, priorityTripinfo%'NP'))
+        os.system("./runner.py -c %s -t %s --nogui"%(priorityConfig, priorityTripinfo%'P'))
+        os.system("sumo -c %s --tripinfo-output %s --ignore-route-errors"%(priorityConfig,  priorityTripinfo%'ST'))
+        resultsP.append(priorityTripinfo%'P')
+        resultsST.append(priorityTripinfo%'ST')
+        resultsNP.append(priorityTripinfo%'NP')
+    os.system("python ./statistics.py -t %s -o %s"%(','.join(resultsP),statisticsMacro%'P'))
+    os.system("python ./statistics.py -t %s -o %s"%(','.join(resultsNP),statisticsMacro%'NP'))
+    os.system("python ./statistics.py -t %s -o %s"%(','.join(resultsST),statisticsMacro%'ST'))
 
-        results.append(priorityTripinfo)
-    os.system("python ./statistics.py -t %s -o %s"%(','.join(results),statistics))
