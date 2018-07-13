@@ -1,0 +1,1 @@
+docker rm $(docker ps -f ancestor=py-ptvsd -a -q) $(docker ps -f ancestor=sumo -a -q); docker run -it -v ${pwd}:/app -p 3000:3000 --name ptest sumo bash
